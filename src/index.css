@@ -1,14 +1,44 @@
+@import url('https://fonts.googleapis.com/css?family=Russo+One');
+
+@font-face {
+  font-family: title;
+  src: url(assets/MISFITS_.TTF);
+}
+
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+body {
+  background: #2b303a;
+  font-family: title;
+  font-size: 3rem;
+}
+span br {
+}
+h1 {
+  line-height: 10%;
+}
+.hg-title {
+  font: 4rem 'Russo One', sans-serif;
+  text-transform: uppercase;
+  color: #a8cfd0;
+}
+
+.rick-title {
+  font: 8rem title;
+  color: #34b8bc;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: #82c95f;
 }
