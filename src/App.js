@@ -6,28 +6,22 @@ class App extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      data: [],
-      someData: ['1', '2']
-    }
+    this.state = {}
   }
 
   componentDidMount = () => {
-    axios
-      .get(`https://one-list-api.herokuapp.com/items?access_token=axis-tolkien`)
-      .then(response => {
-        this.setState({
-          data: response.data
-        })
+    axios.get(`https://rickandmortyapi.com/api/location/`).then(response => {
+      this.setState({
+        data: response.data
       })
-  }
-
-  checkData = () => {
-    // console.log(this.state.data.results)
-    console.log(this.state.data)
+    })
   }
 
   render() {
+    if (!this.state.data) {
+      return <div />
+    }
+
     return (
       <div className="App">
         <h1>
@@ -39,29 +33,11 @@ class App extends Component {
           <br />
           <span className="rick-title">The Multiverse</span>
         </h1>
-        <button onClick={this.checkData}>data</button>
-        <ul>
-          {[...this.state.todos].map(todo => {
-            return (
-              <li
-                key={todo.id}
-                data-id={todo.id}
-                className="test"
-                onClick={this.completeTask}
-                onContextMenu={this.deleteTask}
-              >
-                {todo.text}
-              </li>
-            )
-          })}
-        </ul>
-        {/* <select>
-          {this.state.data.map((location, index) => (
-            <p key={index} value={location}>
-              {location}
-            </p>
+        <div className="places">
+          {this.state.data.results.map((result, index) => (
+            <p key={index}>{result.name}</p>
           ))}
-        </select> */}
+        </div>
       </div>
     )
   }
