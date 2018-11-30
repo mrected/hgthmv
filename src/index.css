@@ -23,7 +23,7 @@ code {
 body {
   background: #2b303a;
   font-family: title;
-  font-size: 3rem;
+  font-size: 2rem;
 }
 span br {
 }
@@ -38,7 +38,31 @@ h1 {
 
 .rick-title {
   font: 8rem title;
-  color: #34b8bc;
+  color: #34b8bc88;
   -webkit-text-stroke-width: 2px;
   -webkit-text-stroke-color: #82c95f;
+}
+
+.places {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+p {
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #34b8bc;
+  margin: 0 10px;
+}
+
+p a:active,
+p a:link,
+p a:visited {
+  color: #34b8bc1c;
+  text-decoration: none;
+}
+
+p a:hover {
+  color: #82c95fdd;
 }
