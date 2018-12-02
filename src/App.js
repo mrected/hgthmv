@@ -13,83 +13,52 @@ class App extends Component {
     axios.get(`https://rickandmortyapi.com/api/location/`).then(response => {
       this.setState({
         data: response.data,
-        residents: [
-          {
-            id: 38,
-            name: 'Beth Smith',
-            status: 'Alive',
-            species: 'Human',
-            type: '',
-            gender: 'Female',
-            origin: {
-              name: 'Earth (C-137)',
-              url: 'https://rickandmortyapi.com/api/location/1'
-            },
-            location: {
-              name: 'Earth (C-137)',
-              url: 'https://rickandmortyapi.com/api/location/1'
-            },
-            image: 'https://rickandmortyapi.com/api/character/avatar/38.jpeg',
-            episode: [
-              'https://rickandmortyapi.com/api/episode/1',
-              'https://rickandmortyapi.com/api/episode/2',
-              'https://rickandmortyapi.com/api/episode/3',
-              'https://rickandmortyapi.com/api/episode/4',
-              'https://rickandmortyapi.com/api/episode/5',
-              'https://rickandmortyapi.com/api/episode/6',
-              'https://rickandmortyapi.com/api/episode/22'
-            ],
-            url: 'https://rickandmortyapi.com/api/character/38',
-            created: '2017-11-05T09:48:44.230Z'
-          },
-          {
-            id: 45,
-            name: 'Bill',
-            status: 'Alive',
-            species: 'Human',
-            type: '',
-            gender: 'Male',
-            origin: {
-              name: 'Earth (C-137)',
-              url: 'https://rickandmortyapi.com/api/location/1'
-            },
-            location: {
-              name: 'Earth (C-137)',
-              url: 'https://rickandmortyapi.com/api/location/1'
-            },
-            image: 'https://rickandmortyapi.com/api/character/avatar/45.jpeg',
-            episode: ['https://rickandmortyapi.com/api/episode/3'],
-            url: 'https://rickandmortyapi.com/api/character/45',
-            created: '2017-11-05T10:22:27.446Z'
-          },
-          {
-            id: 71,
-            name: 'Conroy',
-            status: 'Dead',
-            species: 'Robot',
-            type: '',
-            gender: 'unknown',
-            origin: {
-              name: 'Earth (Replacement Dimension)',
-              url: 'https://rickandmortyapi.com/api/location/20'
-            },
-            location: {
-              name: 'Earth (C-137)',
-              url: 'https://rickandmortyapi.com/api/location/1'
-            },
-            image: 'https://rickandmortyapi.com/api/character/avatar/71.jpeg',
-            episode: ['https://rickandmortyapi.com/api/episode/22'],
-            url: 'https://rickandmortyapi.com/api/character/71',
-            created: '2017-11-30T11:35:50.183Z'
-          }
-        ]
+        residents: []
+      })
+    })
+  }
+
+  getResidents = apiCharacters => {
+    apiCharacters.map(character => {
+      axios.get(character).then(response => {
+        this.setState({
+          residents: response.data
+        })
       })
     })
   }
 
   checkClick = event => {
-    // console.log(event.target.dataset.id)
-    console.log(this.state.residents)
+    this.setState({
+      residents: []
+    })
+
+    let locationId = parseInt(event.target.dataset.id)
+
+    //gets the location id from the location clicked
+    let data = this.state.data.results
+
+    // stores an array of objects with all locations
+    let locationObject = data.find(entry => {
+      return entry.id === locationId
+    })
+
+    // searches for the location the user clicked on and returns
+    // console.log(locationObject.localResidents)
+    locationObject.residents.forEach(resident => {
+      // character is a link to an api with info about that character
+      axios.get(resident).then(response => {
+        let newResidents = this.state.residents
+
+        newResidents.push(response.data)
+
+        this.setState({
+          residents: newResidents
+        })
+        // fetches this data from the api
+      })
+    })
+
     // selectedResidents =
     // when this is clicked,
     // get list of characters from chosen id and load into an array
@@ -117,16 +86,21 @@ class App extends Component {
         </h1>
         <div className="places">
           {this.state.data.results.map((result, index) => (
-            <p key={index}>
-              <a href="#" data-id={result.id} onClick={this.checkClick}>
-                {result.name}
-              </a>
+            <p key={index} data-id={result.id} onClick={this.checkClick}>
+              {result.name}
             </p>
           ))}
         </div>
-        <div clasnName="residents">
+        <div className="residents">
           {this.state.residents.map((resident, index) => {
-            return <img key={index} src={resident.image} alt={resident.name} />
+            return (
+              <div key={index} class="resident-box">
+                <img src={resident.image} alt={resident.name} />
+                <p>Name: {resident.name}</p>
+                <p>Species: {resident.species}</p>
+                <p>Status: {resident.status}</p>
+              </div>
+            )
           })}
         </div>
       </div>
