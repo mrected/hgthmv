@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import './App.css'
+import Resident from './Resident'
 
 class App extends Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class App extends Component {
     })
   }
 
-  checkClick = event => {
+  getResidents = event => {
     this.setState({
       residents: []
     })
@@ -86,21 +87,14 @@ class App extends Component {
         </h1>
         <div className="places">
           {this.state.data.results.map((result, index) => (
-            <p key={index} data-id={result.id} onClick={this.checkClick}>
+            <p key={index} data-id={result.id} onClick={this.getResidents}>
               {result.name}
             </p>
           ))}
         </div>
         <div className="residents">
           {this.state.residents.map((resident, index) => {
-            return (
-              <div key={index} class="resident-box">
-                <img src={resident.image} alt={resident.name} />
-                <p>Name: {resident.name}</p>
-                <p>Species: {resident.species}</p>
-                <p>Status: {resident.status}</p>
-              </div>
-            )
+            return <Resident key={index} resident={resident} />
           })}
         </div>
       </div>
