@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import './App.css'
-import Resident from './Resident'
+import Places from './Places'
+import AllResidents from './AllResidents'
 
 class App extends Component {
   constructor(props) {
@@ -21,7 +22,7 @@ class App extends Component {
 
   getResidents = apiCharacters => {
     apiCharacters.map(character => {
-      axios.get(character).then(response => {
+      return axios.get(character).then(response => {
         this.setState({
           residents: response.data
         })
@@ -85,18 +86,11 @@ class App extends Component {
           <br />
           <span className="rick-title">The Multiverse</span>
         </h1>
-        <div className="places">
-          {this.state.data.results.map((result, index) => (
-            <p key={index} data-id={result.id} onClick={this.getResidents}>
-              {result.name}
-            </p>
-          ))}
-        </div>
-        <div className="residents">
-          {this.state.residents.map((resident, index) => {
-            return <Resident key={index} resident={resident} />
-          })}
-        </div>
+        <Places
+          results={this.state.data.results}
+          getResidents={this.getResidents}
+        />
+        <AllResidents residents={this.state.residents} />
       </div>
     )
   }
