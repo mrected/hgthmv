@@ -3,6 +3,7 @@ import axios from 'axios'
 import './App.css'
 import Places from './Places'
 import AllResidents from './AllResidents'
+import portal from './images/portal.gif'
 
 class App extends Component {
   constructor(props) {
@@ -20,21 +21,17 @@ class App extends Component {
     })
   }
 
-  getResidents = apiCharacters => {
-    apiCharacters.map(character => {
-      return axios.get(character).then(response => {
-        this.setState({
-          residents: response.data
-        })
-      })
-    })
-  }
+  // getResidents = apiCharacters => {
+  //   apiCharacters.map(character => {
+  //     return axios.get(character).then(response => {
+  //       this.setState({
+  //         residents: response.data
+  //       })
+  //     })
+  //   })
+  // }
 
   getResidents = event => {
-    this.setState({
-      residents: []
-    })
-
     let locationId = parseInt(event.target.dataset.id)
 
     //gets the location id from the location clicked
@@ -47,17 +44,20 @@ class App extends Component {
 
     // searches for the location the user clicked on and returns
     // console.log(locationObject.localResidents)
-    locationObject.residents.forEach(resident => {
-      // character is a link to an api with info about that character
-      axios.get(resident).then(response => {
-        let newResidents = this.state.residents
+    // fetches this data from the api
 
-        newResidents.push(response.data)
+    const promises = locationObject.residents.map(resident =>
+      axios.get(resident)
+    )
 
-        this.setState({
-          residents: newResidents
-        })
-        // fetches this data from the api
+    this.setState({
+      loading: true
+    })
+
+    Promise.all(promises).then(response => {
+      this.setState({
+        loading: false,
+        residents: response.map(response => response.data)
       })
     })
 
@@ -90,7 +90,14 @@ class App extends Component {
           results={this.state.data.results}
           getResidents={this.getResidents}
         />
-        <AllResidents residents={this.state.residents} />
+        {this.state.loading ? (
+          <div>
+            <img src={portal} alt="portal" />
+            <p>LOADING</p>
+          </div>
+        ) : (
+          <AllResidents residents={this.state.residents} />
+        )}
       </div>
     )
   }
