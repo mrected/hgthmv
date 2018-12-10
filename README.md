@@ -5,8 +5,6 @@ Uses the [https://rickandmortyapi.com/](https://rickandmortyapi.com/) to view Ri
 Selecting a location loads available characters from that location
 
 <p><strong>Uses:</strong></p>
-
-<p><strong>Uses:</strong></p>
 <ul>
   <li>HTML 5</li>
   <li>CSS</li>
